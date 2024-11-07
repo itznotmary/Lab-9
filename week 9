@@ -40,7 +40,112 @@ states_and_capitals = {
     'Oregon': 'Salem', 'Pennsylvania': 'Harrisburg', 'Rhode Island': 'Providence', 'South Carolina': 'Columbia', 
     'South Dakota': 'Pierre', 'Tennessee': 'Nashville', 'Texas': 'Austin', 'Utah': 'Salt Lake City', 
     'Vermont': 'Montpelier', 'Virginia': 'Richmond', 'Washington': 'Olympia', 'West Virginia': 'Charleston', 
-    'Wisconsin': 'Madison', 'Wyoming': 'Cheyenne' }
+    'Wisconsin': 'Madison', 'Wyoming': 'Cheyenne'}
+def quiz_user(states_and_capitals): states = list(states_and_capitals.keys()) correct_count = 0 incorrect_count = 0
+    for _ in range(5): # Quiz the user 5 times state = random.choice(states) capital = states_and_capitals[state] user_answer = input(
+        if user_answer.lower() == capital.lower(): print("Correct!") correct_count += 1
+            else: print(f"Incorrect. The capital of {state} is {capital}.") incorrect_count += 1
+    print(f"\nYou got {correct_count} correct and {incorrect_count} incorrect.")
+
+
+def encrypt_file(input_file, output_file, codes):
+    with open(input_file, 'r') as infile, open(output_file, 'w') as outfile:
+        for line in infile:
+            encrypted_line = ''.join(codes.get(char, char) for char in line)
+            outfile.write(encrypted_line)
+codes = {
+    'A': '%', 'a': '9', 'B': '@', 'b': '#', 'C': '!', 'c': '1', 'D': '$', 'd': '2',
+    'E': '^', 'e': '3', 'F': '&', 'f': '4', 'G': '*', 'g': '5', 'H': '(', 'h': '6',
+    'I': ')', 'i': '7', 'J': '-', 'j': '8', 'K': '_', 'k': '0', 'L': '=', 'l': '+',
+    'M': '{', 'm': '[', 'N': '}', 'n': ']', 'O': '|', 'o': '\\', 'P': ':', 'p': ';',
+    'Q': '"', 'q': "'", 'R': '<', 'r': ',', 'S': '>', 's': '.', 'T': '?', 't': '/',
+    'U': '`', 'u': '~', 'V': 'A', 'v': 'B', 'W': 'C', 'w': 'D', 'X': 'E', 'x': 'F',
+    'Y': 'G', 'y': 'H', 'Z': 'I', 'z': 'J'}
+encrypt_file('input.txt', 'encrypted.txt', codes)
+
+
+
+
+def unique_words(filename):
+    with open(filename, 'r') as file:
+        text = file.read()
+    text = text.lower()
+    for char in '-.,\n':
+        text = text.replace(char, ' ')
+    words = set(text.split())
+    return words
+filename = 'your_text_file.txt'
+unique_words_set = unique_words(filename)
+print("Unique words in the file:")
+for word in sorted(unique_words_set):
+    print(word)
+
+
+
+def word_frequency(input_file, output_file):
+    word_count = {}
+    with open(input_file, 'r') as file:
+        for line in file:
+            words = line.split()
+            for word in words:
+                word = word.lower().strip('.,!?";:()[]{}')
+                if word in word_count:
+                    word_count[word] += 1
+                else:
+                    word_count[word] = 1
+    with open(output_file, 'w') as file:
+        for word, count in sorted(word_count.items()):
+            file.write(f"{word}: {count}\n")
+    return word_count
+input_filename = 'input.txt'
+output_filename = 'word_frequency.txt'
+word_freq = word_frequency(input_filename, output_filename)
+print("Word frequencies:")
+for word, count in word_freq.items():
+    print(f"{word}: {count}")
+
+
+def read_file_to_set(filename):
+    with open(filename, 'r') as file:
+        text = file.read().lower()
+        words = set(text.split())
+    return words
+def compare_files(file1, file2):
+    set1 = read_file_to_set(file1)
+    set2 = read_file_to_set(file2)
+    unique_words = set1.union(set2)
+    common_words = set1.intersection(set2)
+    words_in_file1_not_in_file2 = set1.difference(set2)
+    words_in_file2_not_in_file1 = set2.difference(set1)
+    symmetric_difference = set1.symmetric_difference(set2) 
+    return {
+        'unique_words': unique_words,
+        'common_words': common_words,
+        'words_in_file1_not_in_file2': words_in_file1_not_in_file2,
+        'words_in_file2_not_in_file1': words_in_file2_not_in_file1,
+        'symmetric_difference': symmetric_difference}
+file1 = 'file1.txt'
+file2 = 'file2.txt'
+comparison_results = compare_files(file1, file2)
+print("Unique words in both files:")
+print(comparison_results['unique_words'])
+print("\nWords that appear in both files:")
+print(comparison_results['common_words'])
+print("\nWords that appear in the first file but not the second:")
+print(comparison_results['words_in_file1_not_in_file2'])
+print("\nWords that appear in the second file but not the first:")
+print(comparison_results['words_in_file2_not_in_file1'])
+print("\nWords that appear in either the first or second file, but not both:")
+print(comparison_results['symmetric_difference'])
+
+
+
+
+
+
+
+
+
     
    
    
